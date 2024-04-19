@@ -1,8 +1,7 @@
 name: Release
 
 on:
-  push:
-    tags: ["*"]
+  pull_request:
 
 jobs:
   release:
@@ -40,8 +39,3 @@ jobs:
 
       - name: Build
         run: pnpm build
-
-      - name: Publish
-        run: pnpm publish --access public --dry-run --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
