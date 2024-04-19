@@ -39,10 +39,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install dependencies
+      - name: Build
         run: pnpm build
 
       - name: Publish
-        run: pnpm publish --access public --dry-run
+        run: pnpm publish --access public --dry-run --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
