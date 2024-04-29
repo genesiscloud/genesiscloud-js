@@ -22,18 +22,40 @@ Here's how to configure the SDK:
 
 ```typescript
 const genesiscloud = new GenesisCloudClient({
-  TOKEN: "your_api_token_here",
+  TOKEN: process.env.GENESISCLOUD_TOKEN,
 });
 ```
 
 ## Examples
+
+### Error handling
+
+Error handling can be done using the try/catch with the async/await syntax. The Genesis Cloud errors are of [this format](/src/core/ApiError.ts).
+
+```typescript
+try {
+  const instance = await genesiscloud.instances.createInstance({
+    requestBody: {
+      // ...
+    },
+  });
+  //... do something with instance
+} catch (error) {
+  if (error instanceof ApiError) {
+    const { code, message } = error.body;
+    // ... handle genesiscloud error
+  } else {
+    // ... handle other errors
+  }
+}
+```
 
 ### Managing Instances
 
 Listing Instances:
 
 ```typescript
-const instances = await genesiscloud.instances.listInstances({
+const { instances } = await genesiscloud.instances.listInstances({
   page: 1,
   perPage: 100,
 });
