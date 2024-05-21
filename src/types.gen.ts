@@ -235,6 +235,10 @@ export type Instance = {
   id: string;
   name: Instance_Name;
   hostname: Instance_Hostname;
+  /**
+   * The unique ID of the reservation the instance is associated with.
+   */
+  reservation_id?: string | null;
   type: Instance_Type;
   os_type: OSType;
   /**
@@ -1040,6 +1044,11 @@ export type $OpenApiTs = {
           type: Instance_Type;
           image: ImageId;
           /**
+           * The unique ID of the reservation the instance is associated with.
+           *
+           */
+          reservation_id?: string;
+          /**
            * An array of ssh key ids.
            * This should not be provided if `password` authentication method is desired.
            *
@@ -1128,6 +1137,11 @@ export type $OpenApiTs = {
         requestBody: {
           name?: Instance_Name;
           is_protected?: Instance_IsProtected;
+          /**
+           * The unique ID of the reservation the instance is associated with.
+           *
+           */
+          reservation_id?: string;
           security_groups?: Instance_SecurityGroupIds;
           /**
            * The instance's volumes IDs.
