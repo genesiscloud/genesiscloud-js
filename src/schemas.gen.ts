@@ -423,6 +423,12 @@ export const $Instance = {
     hostname: {
       $ref: "#/components/schemas/Instance.Hostname",
     },
+    reservation_id: {
+      type: "string",
+      description:
+        "The unique ID of the reservation the instance is associated with.",
+      nullable: true,
+    },
     type: {
       $ref: "#/components/schemas/Instance.Type",
     },
