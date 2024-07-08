@@ -235,6 +235,7 @@ export type Instance = {
   id: string;
   name: Instance_Name;
   hostname: Instance_Hostname;
+  dns_name: Instance_DNSName;
   /**
    * The unique ID of the reservation the instance is associated with.
    */
@@ -323,6 +324,11 @@ export type Instance_Name = string;
  * The hostname of your instance.
  */
 export type Instance_Hostname = string;
+
+/**
+ * The dns name of your instance.
+ */
+export type Instance_DNSName = string;
 
 /**
  * A unique number that can be used to identify and reference a specific image.

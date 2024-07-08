@@ -423,6 +423,9 @@ export const $Instance = {
     hostname: {
       $ref: "#/components/schemas/Instance.Hostname",
     },
+    dns_name: {
+      $ref: "#/components/schemas/Instance.DNSName",
+    },
     reservation_id: {
       type: "string",
       description:
@@ -554,6 +557,7 @@ export const $Instance = {
     "id",
     "name",
     "hostname",
+    "dns_name",
     "type",
     "os_type",
     "public_ip",
@@ -578,6 +582,11 @@ export const $Instance_Name = {
 export const $Instance_Hostname = {
   type: "string",
   description: "The hostname of your instance.",
+} as const;
+
+export const $Instance_DNSName = {
+  type: "string",
+  description: "The dns name of your instance.",
 } as const;
 
 export const $ImageId = {
