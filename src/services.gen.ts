@@ -595,6 +595,27 @@ export class InstancesService {
   }
 
   /**
+   * Get Instance user-metadata
+   * Gets the user-metadata of the instance.
+   * @returns unknown Instance.GetInstanceUserMetadataResponse
+   * @throws ApiError
+   */
+  public getInstanceUserMetadata(
+    data: $OpenApiTs["/instances/{instance_id}/user-metadata"]["get"]["req"],
+  ): CancelablePromise<
+    $OpenApiTs["/instances/{instance_id}/user-metadata"]["get"]["res"][200]
+  > {
+    const { instanceId } = data;
+    return this.httpRequest.request({
+      method: "GET",
+      url: "/instances/{instance_id}/user-metadata",
+      path: {
+        instance_id: instanceId,
+      },
+    });
+  }
+
+  /**
    * List instance snapshots
    * @returns unknown PaginatedSnapshotsResponse
    * @throws ApiError

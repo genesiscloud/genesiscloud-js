@@ -1195,6 +1195,21 @@ export type $OpenApiTs = {
       };
     };
   };
+  "/instances/{instance_id}/user-metadata": {
+    get: {
+      req: {
+        instanceId: string;
+      };
+      res: {
+        /**
+         * Instance.GetInstanceUserMetadataResponse
+         */
+        200: {
+          [key: string]: unknown;
+        };
+      };
+    };
+  };
   "/instances/{instance_id}/snapshots": {
     get: {
       req: {
