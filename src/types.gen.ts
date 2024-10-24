@@ -171,12 +171,14 @@ export type Filesystem = {
 
 export type Filesystem_Status = "creating" | "created" | "deleting";
 
+/**
+ * A unique identifier for each security group. This is automatically generated.
+ *
+ */
+export type SecurityGroupId = string;
+
 export type SecurityGroup = {
-  /**
-   * A unique identifier for each security group. This is automatically generated.
-   *
-   */
-  id: string;
+  id: SecurityGroupId;
   /**
    * The human-readable name for the security group.
    *
@@ -288,7 +290,7 @@ export type Instance = {
    * The security groups of the instance.
    */
   security_groups: Array<{
-    id: Instance_SecurityGroupId;
+    id: SecurityGroupId;
     /**
      * The name of the security group.
      */
@@ -341,20 +343,7 @@ export type ImageId = string;
 export type Instance_SSHKeyId = string;
 
 /**
- * An array of security group ids.
- * **Please Note**: By default the **standard security group** is set if you don"t specify any Security Groups.
- * You can override this behavior by providing a different Security Group.
- *
- */
-export type Instance_SecurityGroupIds = Array<Instance_SecurityGroupId>;
-
-/**
- * The security group ID.
- */
-export type Instance_SecurityGroupId = string;
-
-/**
- * The storage size of the instance's boot volume given in GiB (Min: 80GiB).
+ * The storage size of the instance's boot volume given in GiB.
  *
  */
 export type Instance_DiskSize = number;
@@ -435,6 +424,42 @@ export type Instance_BillingType =
  *
  */
 export type Instance_ReuseLongTermSubscription = string;
+
+export type Instance_UpdateSecurityGroups =
+  | Instance_UpdateSecurityGroups_List
+  | Instance_UpdateSecurityGroups_Attach
+  | Instance_UpdateSecurityGroups_Detach;
+
+/**
+ * The instance's security group IDs.
+ */
+export type Instance_UpdateSecurityGroups_List = Array<SecurityGroupId>;
+
+export type Instance_UpdateSecurityGroups_Attach = {
+  attach: SecurityGroupId;
+};
+
+export type Instance_UpdateSecurityGroups_Detach = {
+  detach: SecurityGroupId;
+};
+
+export type Instance_UpdateVolumes =
+  | Instance_UpdateVolumes_List
+  | Instance_UpdateVolumes_Attach
+  | Instance_UpdateVolumes_Detach;
+
+/**
+ * The instance's volume IDs.
+ */
+export type Instance_UpdateVolumes_List = Array<VolumeId>;
+
+export type Instance_UpdateVolumes_Attach = {
+  attach: VolumeId;
+};
+
+export type Instance_UpdateVolumes_Detach = {
+  detach: VolumeId;
+};
 
 export type SSHKey = {
   /**
@@ -636,7 +661,7 @@ export type $OpenApiTs = {
            */
           name: string;
           /**
-           * The storage size of this snapshot given in GiB (Min: 1GiB).
+           * The storage size of this snapshot given in GiB (min: 1GiB).
            *
            */
           size: number;
@@ -738,7 +763,7 @@ export type $OpenApiTs = {
           description?: string;
           type?: VolumeType;
           /**
-           * The storage size of this volume given in GiB (Min: 1GiB).
+           * The storage size of this volume given in GiB (min: 1GiB).
            *
            */
           size: number;
@@ -797,6 +822,11 @@ export type $OpenApiTs = {
            * The human-readable description set for the volume.
            */
           description?: string;
+          /**
+           * The storage size of this volume given in GiB (min: previous size).
+           *
+           */
+          size?: number;
         };
         volumeId: string;
       };
@@ -837,7 +867,7 @@ export type $OpenApiTs = {
           description?: string;
           type?: FilesystemType;
           /**
-           * The storage size of this filesystem given in GiB (Min: 1GiB).
+           * The storage size of this filesystem given in GiB (min: 1GiB).
            *
            */
           size: number;
@@ -898,7 +928,8 @@ export type $OpenApiTs = {
            */
           description?: string;
           /**
-           * The storage size of this filesystem given in GiB.
+           * The storage size of this filesystem given in GiB (min: previous size).
+           *
            */
           size?: number;
         };
@@ -1061,6 +1092,11 @@ export type $OpenApiTs = {
            */
           ssh_keys?: Array<Instance_SSHKeyId>;
           /**
+           * An array of security group ids.
+           *
+           */
+          security_groups?: Array<SecurityGroupId>;
+          /**
            * An array of volume ids.
            *
            */
@@ -1078,7 +1114,6 @@ export type $OpenApiTs = {
            *
            */
           placement_option?: string;
-          security_groups?: Instance_SecurityGroupIds;
           is_protected?: Instance_IsProtected;
           destroy_on_shutdown?: Instance_DestroyOnShutdown;
           public_ipv6?: Instance_PublicIpv6;
@@ -1148,11 +1183,8 @@ export type $OpenApiTs = {
            *
            */
           reservation_id?: string;
-          security_groups?: Instance_SecurityGroupIds;
-          /**
-           * The instance's volumes IDs.
-           */
-          volumes?: Array<VolumeId>;
+          security_groups?: Instance_UpdateSecurityGroups;
+          volumes?: Instance_UpdateVolumes;
           disk_size?: Instance_DiskSize;
         };
       };

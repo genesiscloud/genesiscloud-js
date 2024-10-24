@@ -316,13 +316,17 @@ export const $Filesystem_Status = {
   enum: ["creating", "created", "deleting"],
 } as const;
 
+export const $SecurityGroupId = {
+  type: "string",
+  description: `A unique identifier for each security group. This is automatically generated.
+`,
+} as const;
+
 export const $SecurityGroup = {
   type: "object",
   properties: {
     id: {
-      type: "string",
-      description: `A unique identifier for each security group. This is automatically generated.
-`,
+      $ref: "#/components/schemas/SecurityGroupId",
     },
     name: {
       type: "string",
@@ -508,7 +512,7 @@ export const $Instance = {
         type: "object",
         properties: {
           id: {
-            $ref: "#/components/schemas/Instance.SecurityGroupId",
+            $ref: "#/components/schemas/SecurityGroupId",
           },
           name: {
             type: "string",
@@ -600,26 +604,9 @@ export const $Instance_SSHKeyId = {
   description: "The ssh key ID.",
 } as const;
 
-export const $Instance_SecurityGroupIds = {
-  type: "array",
-  description: `An array of security group ids.
-**Please Note**: By default the **standard security group** is set if you don"t specify any Security Groups.
-You can override this behavior by providing a different Security Group.
-`,
-  minItems: 1,
-  items: {
-    $ref: "#/components/schemas/Instance.SecurityGroupId",
-  },
-} as const;
-
-export const $Instance_SecurityGroupId = {
-  type: "string",
-  description: "The security group ID.",
-} as const;
-
 export const $Instance_DiskSize = {
   type: "integer",
-  description: `The storage size of the instance's boot volume given in GiB (Min: 80GiB).
+  description: `The storage size of the instance's boot volume given in GiB.
 `,
 } as const;
 
@@ -722,6 +709,90 @@ export const $Instance_ReuseLongTermSubscription = {
   description: `The long term subscription id to be used for this instance.
 If not provided, the billing_type will default to on-demand.
 `,
+} as const;
+
+export const $Instance_UpdateSecurityGroups = {
+  oneOf: [
+    {
+      $ref: "#/components/schemas/Instance.UpdateSecurityGroups.List",
+    },
+    {
+      $ref: "#/components/schemas/Instance.UpdateSecurityGroups.Attach",
+    },
+    {
+      $ref: "#/components/schemas/Instance.UpdateSecurityGroups.Detach",
+    },
+  ],
+} as const;
+
+export const $Instance_UpdateSecurityGroups_List = {
+  type: "array",
+  description: "The instance's security group IDs.",
+  items: {
+    $ref: "#/components/schemas/SecurityGroupId",
+  },
+} as const;
+
+export const $Instance_UpdateSecurityGroups_Attach = {
+  type: "object",
+  properties: {
+    attach: {
+      $ref: "#/components/schemas/SecurityGroupId",
+    },
+  },
+  required: ["attach"],
+} as const;
+
+export const $Instance_UpdateSecurityGroups_Detach = {
+  type: "object",
+  properties: {
+    detach: {
+      $ref: "#/components/schemas/SecurityGroupId",
+    },
+  },
+  required: ["detach"],
+} as const;
+
+export const $Instance_UpdateVolumes = {
+  oneOf: [
+    {
+      $ref: "#/components/schemas/Instance.UpdateVolumes.List",
+    },
+    {
+      $ref: "#/components/schemas/Instance.UpdateVolumes.Attach",
+    },
+    {
+      $ref: "#/components/schemas/Instance.UpdateVolumes.Detach",
+    },
+  ],
+} as const;
+
+export const $Instance_UpdateVolumes_List = {
+  type: "array",
+  description: "The instance's volume IDs.",
+  items: {
+    $ref: "#/components/schemas/VolumeId",
+  },
+} as const;
+
+export const $Instance_UpdateVolumes_Attach = {
+  type: "object",
+  properties: {
+    attach: {
+      $ref: "#/components/schemas/VolumeId",
+    },
+  },
+  required: ["attach"],
+} as const;
+
+export const $Instance_UpdateVolumes_Detach = {
+  type: "object",
+  properties: {
+    detach: {
+      $ref: "#/components/schemas/VolumeId",
+    },
+  },
+  required: ["detach"],
 } as const;
 
 export const $SSHKey = {
